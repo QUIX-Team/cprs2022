@@ -4,7 +4,9 @@ from sqlalchemy.orm import session
 from db.db_setup import getdb
 from db.models.career import Interests
 
-router = fastapi.APIRouter()
+router = fastapi.APIRouter(
+    tags=['Careers']
+)
 
 
 @router.get("/career")
@@ -26,5 +28,3 @@ async def get_career(code: str, area: int, db: session = fastapi.Depends(getdb))
                for code in generated_codes]
 
     return [career for career in careers if len(career) > 0]
-
-

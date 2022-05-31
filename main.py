@@ -18,6 +18,11 @@ app = FastAPI(
     }, )
 
 
+@app.get("/")
+def welcome():
+    return {"message": "Welcome to the RecSystem App Endpoints enter /docs at the end of url to see the endpoints"}
+
+
 @app.exception_handler(AuthJWTException)
 def authjwt_exception_handler(request: Request, exc: AuthJWTException):
     return JSONResponse(
