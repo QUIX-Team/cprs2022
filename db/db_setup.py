@@ -2,11 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-pg_user = "hagpcmgspnvkcr"
-pg_pwd = "46491ae6f81d4ba8e58e2de8adf69234b409cb80eaf3e8505e96b396eabae7a4"
+pg_user = "qenjyqdlmrnema"
+pg_pwd = "5c9c2a97c3ff9195a11b7bacb71c5a6ee7ce9af93ca7506e68daec1f9676c8c6"
 pg_port = "5432"
-pg_db = "d8auiotjh57a3q"
-pg_host = "ec2-34-230-153-41.compute-1.amazonaws.com"
+pg_db = "d33sv9ge9buo1q"
+pg_host = "ec2-34-198-186-145.compute-1.amazonaws.com"
 db_url = "postgresql+psycopg2://{username}:{password}@{host}:{port}/{db}".format(username=pg_user, password=pg_pwd,
                                                                                  host=pg_host, port=pg_port, db=pg_db)
 

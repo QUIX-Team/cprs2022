@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from sqlalchemy import or_
 from werkzeug.security import check_password_hash, generate_password_hash
-from db.db_setup import SessionLocal, engine
+from sqlalchemy.orm import session
 from db.db_setup import getdb
 from db.models.users import TokenBlackList
 from db.models.users import User
@@ -13,12 +13,10 @@ auth_router = APIRouter(
     tags=['auth']
 )
 
-session = SessionLocal(bind=engine)
-
 
 @auth_router.post('signup', response_model=UserOut, status_code=status.HTTP_201_CREATED)
-async def signup(user: SignUp):
-    db_email = session.query(User).filter(or_(User.email == user.email, User.username == user.username)).first()
+async def signup(user: SignUp, db: session = Depends(getdb)):
+    db_email = db.query(User).filter(or_(User.email == user.email, User.username == user.username)).first()
     if db_email is not None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="user with this email/username is already exist")
@@ -33,14 +31,14 @@ async def signup(user: SignUp):
         city=user.city,
         graduated=user.graduated,
     )
-    session.add(new_user)
-    session.commit()
+    db.add(new_user)
+    db.commit()
     return new_user
 
 
 @auth_router.post("login")
-async def login(user_info: Login, session=Depends(getdb), Authorize: AuthJWT = Depends()):
-    user_in_db = session.query(User).filter(User.username == user_info.username).first()
+async def login(user_info: Login, db: session = Depends(getdb), Authorize: AuthJWT = Depends()):
+    user_in_db = db.query(User).filter(User.username == user_info.username).first()
     if user_in_db is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="user not found!")
     if not check_password_hash(user_in_db.password, user_info.password):
@@ -51,7 +49,7 @@ async def login(user_info: Login, session=Depends(getdb), Authorize: AuthJWT = D
 
 
 @auth_router.post("logout")
-async def logout(session=Depends(getdb), Authorize: AuthJWT = Depends()):
+async def logout(db: session = Depends(getdb), Authorize: AuthJWT = Depends()):
     Authorize.jwt_required()
     jti = Authorize.get_raw_jwt()["jti"]
-    session.add(TokenBlackList(jti=jti))
+    db.add(TokenBlackList(jti=jti))

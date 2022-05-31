@@ -23,7 +23,7 @@ class UserOut(UserBase):
 
 class SignUp(UserBase):
     def __init__(__pydantic_self__, **data: Any):
-        super().__init__(data)
+        super().__init__(**data)
         __pydantic_self__.graduated = None
 
     password: str

@@ -26,3 +26,5 @@ async def get_career(code: str, area: int, db: session = fastapi.Depends(getdb))
                for code in generated_codes]
 
     return [career for career in careers if len(career) > 0]
+
+
