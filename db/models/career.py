@@ -12,3 +12,5 @@ class Interests(Base):
     interest_code = Column(String(50))
     job_zone = Column(Integer)
     description = Column(String(1000))
+    abilities = Column(String(1200))
+    skills = Column(String(1000))
