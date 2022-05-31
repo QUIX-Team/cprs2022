@@ -10,7 +10,7 @@ from db.schemas.users import SignUp, UserOut, Login
 
 auth_router = APIRouter(
     prefix='/auth',
-    tags=['auth']
+    tags=['registration']
 )
 
 

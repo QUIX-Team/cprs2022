@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api import careers_api
+from api import questioner_api
 from api.users_api import user_api, auth, users
 from fastapi import Request
 from fastapi.responses import JSONResponse
@@ -31,7 +31,7 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
     )
 
 
-app.include_router(careers_api.router)
+app.include_router(questioner_api.router)
 app.include_router(user_api.router)
 app.include_router(auth.auth_router)
 app.include_router(users.users_router)
