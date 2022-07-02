@@ -4,7 +4,7 @@ from sqlalchemy.sql.schema import Column
 from ..db_setup import Base
 
 
-class Interests(Base):
+class Courses(Base):
     __tablename__ = 'courses'
 
     id = Column(Integer, primary_key=True)
